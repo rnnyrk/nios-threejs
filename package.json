@@ -2,7 +2,7 @@
   "name": "nios",
   "version": "1.0.0",
   "description": "Photographer hitchhiking the world",
-  "author": "Ronny Rook",
+  "author": "rnnyrk",
   "url": "https://nios.life",
   "scripts": {
     "start": "next dev -p $([ -f .port ] && cat .port || echo 3000)",
