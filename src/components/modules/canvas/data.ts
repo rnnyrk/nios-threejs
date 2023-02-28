@@ -1,11 +1,5 @@
 import * as THREE from 'three';
 
-type Point = {
-  x: number;
-  y: number;
-  z: number;
-};
-
 type PointArray = [x: number, y: number, z: number];
 
 // Convert latitute and longitude to cartesian coordinates
@@ -26,11 +20,23 @@ const getCurve = (p1: PointArray, p2: PointArray) => {
   const v2 = new THREE.Vector3(p2[0], p2[1], p2[2]);
   const points: THREE.Vector3[] = [];
 
+  const distance = new THREE.Vector3(p1[0], p1[1], p1[2]).distanceTo(
+    new THREE.Vector3(p2[0], p2[1], p2[2]),
+  );
+
   const amountOfPoints = 20;
 
   for (let i = 0; i <= amountOfPoints; i++) {
     const p = new THREE.Vector3().lerpVectors(v1, v2, i / amountOfPoints);
-    p.normalize().multiplyScalar(1 + 0.1 * Math.sin(Math.PI * (i / amountOfPoints)));
+
+    let multiply = 0.03;
+    if (distance > 0.2) {
+      multiply = 0.06;
+    } else if (distance > 0.5) {
+      multiply = 0.09;
+    }
+
+    p.normalize().multiplyScalar(1 + multiply * Math.sin(Math.PI * (i / amountOfPoints)));
     points.push(p);
   }
 

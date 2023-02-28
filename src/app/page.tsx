@@ -8,12 +8,10 @@ const Home = () => {
   return (
     <Canvas>
       <Earth />
-      <Stats />
+      {/* <Stats /> */}
       <OrbitControls
-        autoRotate
-        autoRotateSpeed={0.4}
         minDistance={1.5}
-        maxDistance={4}
+        maxDistance={2.8}
       />
     </Canvas>
   );
