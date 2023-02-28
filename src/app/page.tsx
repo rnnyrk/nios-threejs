@@ -12,6 +12,8 @@ const Home = () => {
       <OrbitControls
         autoRotate
         autoRotateSpeed={0.4}
+        minDistance={1.5}
+        maxDistance={4}
       />
     </Canvas>
   );
