@@ -9,7 +9,10 @@ const Home = () => {
     <Canvas>
       <Earth />
       <Stats />
-      <OrbitControls />
+      <OrbitControls
+        autoRotate
+        autoRotateSpeed={0.4}
+      />
     </Canvas>
   );
 };
