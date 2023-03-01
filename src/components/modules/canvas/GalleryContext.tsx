@@ -4,11 +4,6 @@ import { createContext, useState } from 'react';
 
 import { type PointArray } from './data';
 
-type Gallery = {
-  positions: PointArray;
-  image: string | null;
-}[];
-
 const getRandomArbitrary = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 };
@@ -27,6 +22,13 @@ export const createGallery = (): Gallery => {
     return {
       positions: [offsetX, -offsetY, 0] as PointArray,
       image: null,
+      title:
+        index === 1
+          ? 'Amsterdam, Netherlands'
+          : index === 2
+          ? 'Sofia, Bulgaria'
+          : 'Kathmandu, Nepal',
+      date: 'March 2020 - June 2021',
     };
   });
 
@@ -36,14 +38,14 @@ export const createGallery = (): Gallery => {
 export const GalleryContext = createContext<GalleryContextType | null>(null);
 
 export const CanvasGalleryContext = ({ children }: CanvasGalleryContextProps) => {
-  const [galleryActive, setGalleryActive] = useState(false);
+  const [galleryActiveIndex, setGalleryActiveIndex] = useState<number | false>(false);
 
   return (
     <GalleryContext.Provider
       value={{
         gallery: createGallery(),
-        galleryActive,
-        setGalleryActive,
+        galleryActiveIndex,
+        setGalleryActiveIndex,
       }}
     >
       {children}
@@ -51,10 +53,17 @@ export const CanvasGalleryContext = ({ children }: CanvasGalleryContextProps) =>
   );
 };
 
+type Gallery = {
+  date: string;
+  image: string | null;
+  positions: PointArray;
+  title: string;
+}[];
+
 type GalleryContextType = {
   gallery: Gallery;
-  galleryActive: boolean;
-  setGalleryActive: i.SetState<boolean>;
+  galleryActiveIndex: number | false;
+  setGalleryActiveIndex: i.SetState<number | false>;
 };
 
 type CanvasGalleryContextProps = {

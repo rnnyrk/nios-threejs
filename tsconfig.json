@@ -17,59 +17,25 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "modules": [
-        "src/components/modules/index"
-      ],
-      "modules/*": [
-        "src/components/modules/*"
-      ],
-      "common": [
-        "src/components/common/index"
-      ],
-      "common/*": [
-        "src/components/common/*"
-      ],
-      "layouts": [
-        "src/components/layouts/index"
-      ],
-      "layouts/*": [
-        "src/components/layouts/*"
-      ],
-      "hooks": [
-        "src/services/hooks/index"
-      ],
-      "hooks/*": [
-        "src/services/hooks/*"
-      ],
-      "images/*": [
-        "public/images/*"
-      ],
-      "styles": [
-        "src/styles/index"
-      ],
-      "styles/*": [
-        "src/styles/*"
-      ],
-      "services": [
-        "src/services"
-      ],
-      "services/*": [
-        "src/services/*"
-      ],
-      "queries/*": [
-        "src/queries/*"
-      ],
-      "types": [
-        "src/types/index"
-      ],
-      "vectors/*": [
-        "public/vectors/*"
-      ]
+      "modules": ["src/components/modules/index"],
+      "modules/*": ["src/components/modules/*"],
+      "common": ["src/components/common/index"],
+      "common/*": ["src/components/common/*"],
+      "layouts": ["src/components/layouts/index"],
+      "layouts/*": ["src/components/layouts/*"],
+      "hooks": ["src/services/hooks/index"],
+      "hooks/*": ["src/services/hooks/*"],
+      "styles": ["src/styles/index"],
+      "styles/*": ["src/styles/*"],
+      "services": ["src/services"],
+      "services/*": ["src/services/*"],
+      "queries/*": ["src/queries/*"],
+      "types": ["src/types/index"],
+      "images/*": ["public/images/*"],
+      "shaders/*": ["public/shaders/*"],
+      "vectors/*": ["public/vectors/*"]
     },
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "incremental": true,
     "plugins": [
       {
@@ -77,16 +43,8 @@
       }
     ]
   },
-  "typeRoots": [
-    "node_modules/@types"
-  ],
-  "exclude": [
-    "dist",
-    ".next",
-    "out",
-    "next.config.js",
-    "node_modules"
-  ],
+  "typeRoots": ["node_modules/@types"],
+  "exclude": ["dist", ".next", "out", "next.config.js", "node_modules"],
   "include": [
     "next-env.d.ts",
     "src/**/*.d.ts",

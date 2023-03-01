@@ -32,4 +32,8 @@ declare global {
     const value: string;
     export = value;
   }
+  declare module '*.glsl' {
+    const value: string;
+    export = value;
+  }
 }

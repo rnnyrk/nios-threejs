@@ -7,13 +7,14 @@ specifiers:
   '@ianvs/prettier-plugin-sort-imports': 3.7.1
   '@next/eslint-plugin-next': 13.2.1
   '@next/font': 13.2.1
-  '@react-three/drei': ^9.56.28
-  '@react-three/fiber': ^8.11.5
+  '@react-three/drei': 9.56.28
+  '@react-three/fiber': 8.11.5
   '@svgr/webpack': 6.5.1
+  '@types/lodash': ^4.14.191
   '@types/node': 18.13.0
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
-  '@types/three': ^0.149.0
+  '@types/three': 0.149.0
   '@types/webpack': 5.28.0
   '@typescript-eslint/eslint-plugin': 5.52.0
   '@typescript-eslint/parser': 5.52.0
@@ -28,17 +29,20 @@ specifiers:
   eslint-plugin-jsx-a11y: 6.7.1
   eslint-plugin-react: 7.32.2
   eslint-plugin-react-hooks: 4.6.0
-  framer-motion: ^10.0.1
+  framer-motion: 10.0.1
+  lodash: ^4.17.21
   next: 13.2.1
   postcss: 8.4.21
   prettier: 2.8.4
+  raw-loader: ^4.0.2
   react: 18.2.0
   react-dom: 18.2.0
   sharp: 0.31.3
   tailwindcss: 3.2.7
-  three: ^0.150.1
+  three: 0.150.1
   typescript: 4.9.5
   webpack: 5.75.0
+  webpack-glsl-loader: ^1.0.1
 
 dependencies:
   '@next/font': 13.2.1
@@ -46,6 +50,7 @@ dependencies:
   '@react-three/fiber': 8.11.5_73epb4osyabtjyiaeamriercbi
   clsx: 1.2.1
   framer-motion: 10.0.1_biqbaboplfbrettd7655fr4n2y
+  lodash: 4.17.21
   next: 13.2.1_pjwopsidmaokadturxaafygjp4
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -59,6 +64,7 @@ devDependencies:
   '@ianvs/prettier-plugin-sort-imports': 3.7.1_prettier@2.8.4
   '@next/eslint-plugin-next': 13.2.1
   '@svgr/webpack': 6.5.1
+  '@types/lodash': 4.14.191
   '@types/node': 18.13.0
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
@@ -78,9 +84,11 @@ devDependencies:
   eslint-plugin-react-hooks: 4.6.0_eslint@8.34.0
   postcss: 8.4.21
   prettier: 2.8.4
+  raw-loader: 4.0.2_webpack@5.75.0
   tailwindcss: 3.2.7_postcss@8.4.21
   typescript: 4.9.5
   webpack: 5.75.0
+  webpack-glsl-loader: 1.0.1
 
 packages:
 
@@ -2044,6 +2052,10 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+    dev: true
+
   /@types/node/18.13.0:
     resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
     dev: true
@@ -2653,6 +2665,10 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
+  /big.js/5.2.2:
+    resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==}
+    dev: true
+
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
@@ -3091,6 +3107,11 @@ packages:
 
   /emoji-regex/9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
+    dev: true
+
+  /emojis-list/3.0.0:
+    resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
+    engines: {node: '>= 4'}
     dev: true
 
   /end-of-stream/1.4.4:
@@ -3777,6 +3798,10 @@ packages:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
 
+  /fs/0.0.2:
+    resolution: {integrity: sha512-YAiVokMCrSIFZiroB1oz51hPiPRVcUtSa4x2U5RYXyhS9VAPdiFigKbPTnOSq7XY8wd3FIVPYmXpo5lMzFmxgg==}
+    dev: true
+
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -4322,6 +4347,15 @@ packages:
     engines: {node: '>=6.11.5'}
     dev: true
 
+  /loader-utils/2.0.4:
+    resolution: {integrity: sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==}
+    engines: {node: '>=8.9.0'}
+    dependencies:
+      big.js: 5.2.2
+      emojis-list: 3.0.0
+      json5: 2.2.3
+    dev: true
+
   /locate-path/6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -4715,6 +4749,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /path/0.11.14:
+    resolution: {integrity: sha512-CzEXTDgcEfa0yqMe+DJCSbEB5YCv4JZoic5xulBNFF2ifIMjNrTWbNSPNhgKfSo0MjneGIx9RLy4pCFuZPaMSQ==}
+    dev: true
+
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
 
@@ -4873,6 +4911,17 @@ packages:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
       safe-buffer: 5.2.1
+    dev: true
+
+  /raw-loader/4.0.2_webpack@5.75.0:
+    resolution: {integrity: sha512-ZnScIV3ag9A4wPX/ZayxL/jZH+euYb6FcUinPcgiQW0+UBtEv0O6Q3lGd3cqJ+GHH+rksEv3Pj99oxJ3u3VIKA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      loader-utils: 2.0.4
+      schema-utils: 3.1.1
+      webpack: 5.75.0
     dev: true
 
   /rc/1.2.8:
@@ -5655,6 +5704,13 @@ packages:
   /webgl-sdf-generator/1.1.1:
     resolution: {integrity: sha512-9Z0JcMTFxeE+b2x1LJTdnaT8rT8aEp7MVxkNwoycNmJWwPdzoXzMh0BjJSh/AEFP+KPYZUli814h8bJZFIZ2jA==}
     dev: false
+
+  /webpack-glsl-loader/1.0.1:
+    resolution: {integrity: sha512-bFtjj+sOGECMKQ+o8V4Y0TdrIxiua6ykVAncj5ccws8ezZBhhz+9wdrQqSgawm2IS3SPjoVaF7yxSAS8naNirg==}
+    dependencies:
+      fs: 0.0.2
+      path: 0.11.14
+    dev: true
 
   /webpack-sources/3.2.3:
     resolution: {integrity: sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==}

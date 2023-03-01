@@ -81,6 +81,10 @@ const config = (phase, config) => {
               },
             ],
           },
+          {
+            test: /\.(glsl|vs|fs|vert|frag)$/,
+            use: 'webpack-glsl-loader',
+          },
         ];
 
         // Add our rules
