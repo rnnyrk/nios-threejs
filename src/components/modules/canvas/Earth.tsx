@@ -27,7 +27,7 @@ export const Earth = () => {
       const [x, y, z] = galleryContext?.gallery[0].positions;
       const newTarget = new THREE.Vector3(x, y, z + 2);
 
-      state.camera.position.lerp(newTarget, 1);
+      state.camera.position.lerp(newTarget, 0.75);
       state.camera.updateProjectionMatrix();
 
       cameraControlsRef?.current.setLookAt(
@@ -64,6 +64,7 @@ export const Earth = () => {
     <>
       <CameraControls
         ref={cameraControlsRef}
+        distance={2}
         minDistance={1.5}
         maxDistance={2.8}
       />

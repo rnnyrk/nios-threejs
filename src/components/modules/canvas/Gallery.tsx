@@ -13,6 +13,7 @@ export const Gallery = () => {
         const nextPoint = galleryContext?.gallery[index + 1];
 
         // Draw points in between the gallery images
+        // Source from; https://twitter.com/Guitouxx/status/1630228514388553728
         let curve: THREE.CubicBezierCurve3 | null = null;
         if (nextPoint) {
           const oldX = positions[0];
