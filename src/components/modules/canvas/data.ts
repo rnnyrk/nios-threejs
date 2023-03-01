@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-type PointArray = [x: number, y: number, z: number];
+export type PointArray = [x: number, y: number, z: number];
 
 // Convert latitute and longitude to cartesian coordinates
 // Based on this video tutorial: https://www.youtube.com/watch?v=2pUzJOfekVE

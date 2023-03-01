@@ -18,3 +18,5 @@ export type StringKeyObject = AnyObject<string>;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFn = (...args: any) => any;
+
+export type SetState<type = any> = React.Dispatch<React.SetStateAction<type>>;
