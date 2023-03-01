@@ -2,13 +2,12 @@
 import { useContext, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { useLoader, useFrame } from '@react-three/fiber';
-import { CameraControls } from '@react-three/drei';
 import { TextureLoader } from 'three/src/loaders/TextureLoader';
 
 import { getEarthPoints } from './data';
 import { GalleryContext } from './GalleryContext';
 
-export const Earth = ({ cameraControlsRef }: EarthProps) => {
+export const Earth = ({ containerRef }: EarthProps) => {
   const earthRef = useRef<THREE.Group>(null);
   const earthMap = useLoader(TextureLoader, 'images/earth-texture.jpeg');
 
@@ -23,33 +22,31 @@ export const Earth = ({ cameraControlsRef }: EarthProps) => {
       earthRef.current.rotation.y += 0.1 * delta;
     }
 
-    if (!cameraControlsRef?.current || !galleryContext) return;
+    if (!galleryContext || !containerRef?.current) return;
 
     if (galleryContext.galleryActiveIndex === 0) {
-      const [x, y, z] = galleryContext.gallery[0].positions;
-      const newTarget = new THREE.Vector3(x, y, z + 2);
-
-      state.camera.position.lerp(newTarget, 0.75);
+      // Reset the camera position when the gallery becomes active
+      state.camera.position.lerp(new THREE.Vector3(0, 0, 4), 0.05);
+      state.camera.lookAt(0, 0, 0);
       state.camera.updateProjectionMatrix();
-
-      cameraControlsRef.current.setLookAt(
-        state.camera.position.x,
-        state.camera.position.y,
-        state.camera.position.z,
-        x,
-        y,
-        z,
-        true,
-      );
     }
-
-    return cameraControlsRef.current.update(delta);
   });
 
   const onSetActive = () => {
     if (!galleryContext) return;
     setHoverActive(true);
+
+    // Disable hover states on earth by setting the index from false to 0 (first image)
     galleryContext.setGalleryActiveIndex(0);
+
+    // Animate to the first image in the gallery
+    const [x, y, z] = galleryContext.gallery[0].positions;
+    const newTarget = new THREE.Vector3(x, -y, z);
+
+    galleryContext.setFocusPoint({
+      from: [...galleryContext.focusPoint.from],
+      to: [newTarget.x, newTarget.y, newTarget.z],
+    });
   };
 
   const onPointerOver = () => {
@@ -65,27 +62,31 @@ export const Earth = ({ cameraControlsRef }: EarthProps) => {
   return (
     <group
       ref={earthRef}
-      position-y={-0.5}
+      rotation={[0, -1.9, 0]}
     >
       <mesh>
-        <sphereGeometry />
+        <sphereGeometry args={[1, 25, 25]} />
         <meshBasicMaterial map={earthMap} />
       </mesh>
       {Object.values(points).map((position, index) => (
         <mesh
           key={`point-${index}`}
-          scale={0.016}
+          scale={0.1}
           position={position}
           onClick={onSetActive}
           onPointerOver={onPointerOver}
           onPointerOut={onPointerOut}
+          renderOrder={2}
         >
-          <sphereGeometry args={[1, 10, 10]} />
+          <sphereGeometry args={[0.2, 10, 10]} />
           <meshBasicMaterial color="#F9F9F9" />
         </mesh>
       ))}
       {Object.values(curves).map((curvePoints, index) => (
-        <mesh key={`curve-${index}`}>
+        <mesh
+          key={`curve-${index}`}
+          renderOrder={1}
+        >
           <tubeGeometry args={[curvePoints, 15, 0.006, 8, false]} />
           <meshBasicMaterial color="#5B7D7C" />
         </mesh>
@@ -95,5 +96,5 @@ export const Earth = ({ cameraControlsRef }: EarthProps) => {
 };
 
 type EarthProps = {
-  cameraControlsRef: React.MutableRefObject<CameraControls | null>;
+  containerRef: React.MutableRefObject<THREE.Group | null>;
 };

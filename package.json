@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@next/font": "13.2.1",
+    "@react-spring/three": "^9.7.1",
     "@react-three/drei": "9.56.28",
     "@react-three/fiber": "8.11.5",
     "clsx": "1.2.1",

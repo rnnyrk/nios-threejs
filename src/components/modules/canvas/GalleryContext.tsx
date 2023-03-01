@@ -39,6 +39,10 @@ export const GalleryContext = createContext<GalleryContextType | null>(null);
 
 export const CanvasGalleryContext = ({ children }: CanvasGalleryContextProps) => {
   const [galleryActiveIndex, setGalleryActiveIndex] = useState<number | false>(false);
+  const [focusPoint, setFocusPoint] = useState<FocusPoints>({
+    from: [0, 0, 4],
+    to: [0, 0, 0],
+  });
 
   return (
     <GalleryContext.Provider
@@ -46,6 +50,8 @@ export const CanvasGalleryContext = ({ children }: CanvasGalleryContextProps) =>
         gallery: createGallery(),
         galleryActiveIndex,
         setGalleryActiveIndex,
+        focusPoint,
+        setFocusPoint,
       }}
     >
       {children}
@@ -60,10 +66,17 @@ type Gallery = {
   title: string;
 }[];
 
+type FocusPoints = {
+  from: PointArray;
+  to: PointArray;
+};
+
 type GalleryContextType = {
   gallery: Gallery;
   galleryActiveIndex: number | false;
   setGalleryActiveIndex: i.SetState<number | false>;
+  focusPoint: FocusPoints;
+  setFocusPoint: i.SetState<FocusPoints>;
 };
 
 type CanvasGalleryContextProps = {

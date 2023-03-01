@@ -1,6 +1,6 @@
 'use client';
 import { Fragment, useContext, useRef, useState } from 'react';
-import { Text, CameraControls } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import clamp from 'lodash/clamp';
 
@@ -13,7 +13,7 @@ import { MathUtils } from 'three';
 
 type CurveRef = THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
 
-export const Gallery = ({ cameraControlsRef }: GalleryProps) => {
+export const Gallery = ({ containerRef }: GalleryProps) => {
   const galleryContext = useContext(GalleryContext);
 
   const curveRefs = useRef<CurveRef[]>([]);
@@ -28,7 +28,7 @@ export const Gallery = ({ cameraControlsRef }: GalleryProps) => {
 
   useFrame((state, delta) => {
     if (
-      !cameraControlsRef?.current ||
+      !containerRef?.current ||
       !galleryContext ||
       !curveRefs?.current ||
       !nextCurve ||
@@ -53,30 +53,28 @@ export const Gallery = ({ cameraControlsRef }: GalleryProps) => {
       // state.camera.position.z = 4;
       // state.camera.updateProjectionMatrix();
 
-      // cameraControlsRef.current.setPosition(
+      // containerRef.current.setPosition(
       //   state.camera.position.x,
       //   state.camera.position.y,
       //   state.camera.position.z,
       // );
 
-      cameraControlsRef.current.setPosition(
-        MathUtils.damp(state.camera.position.x, position.x, 6, delta),
-        MathUtils.damp(state.camera.position.y, position.y, 6, delta),
-        2,
-      );
+      // containerRef.current.setPosition(
+      //   MathUtils.damp(state.camera.position.x, position.x, 6, delta),
+      //   MathUtils.damp(state.camera.position.y, position.y, 6, delta),
+      //   2,
+      // );
 
-      cameraControlsRef.current.setLookAt(
-        state.camera.position.x,
-        state.camera.position.y,
-        state.camera.position.z,
-        x,
-        y,
-        z,
-        true,
-      );
+      // containerRef.current.setLookAt(
+      //   state.camera.position.x,
+      //   state.camera.position.y,
+      //   state.camera.position.z,
+      //   x,
+      //   y,
+      //   z,
+      //   true,
+      // );
     }
-
-    return cameraControlsRef.current.update(delta);
   });
 
   const onNextImage = (curve: THREE.CubicBezierCurve3) => {
@@ -177,5 +175,5 @@ export const Gallery = ({ cameraControlsRef }: GalleryProps) => {
 };
 
 type GalleryProps = {
-  cameraControlsRef: React.MutableRefObject<CameraControls | null>;
+  containerRef: React.MutableRefObject<THREE.Group | null>;
 };
