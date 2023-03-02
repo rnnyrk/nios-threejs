@@ -10,5 +10,5 @@ void main()
   vec4 colorActive = vec4(uColorActive, 1.0);
   vec4 colors = mix(colorHide, colorActive, limit);
 
-  gl_FragColor = vec4(uColorActive, 1.0);
+  gl_FragColor = colors;
 }

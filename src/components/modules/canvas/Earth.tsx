@@ -41,11 +41,12 @@ export const Earth = ({ containerRef }: EarthProps) => {
 
     // Animate to the first image in the gallery
     const [x, y, z] = galleryContext.gallery[0].positions;
-    const newTarget = new THREE.Vector3(x, -y, z);
+    const newTarget = new THREE.Vector3(-x, -y, z);
 
     galleryContext.setFocusPoint({
       from: [...galleryContext.focusPoint.from],
       to: [newTarget.x, newTarget.y, newTarget.z],
+      isCurve: false,
     });
   };
 

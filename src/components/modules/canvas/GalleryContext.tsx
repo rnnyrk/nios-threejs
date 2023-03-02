@@ -1,6 +1,6 @@
 'use client';
 import * as i from 'types';
-import { createContext, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 
 import { type PointArray } from './data';
 
@@ -13,22 +13,28 @@ export const createGallery = (): Gallery => {
   let previousOffsetY = 0;
 
   const images = Array.from({ length: 3 }).map((_, index) => {
-    const offsetX = getRandomArbitrary(2, -2) + previousOffsetX / 2 ?? 0;
-    const offsetY = getRandomArbitrary(4, 6) + previousOffsetY ?? 0;
+    const offsetX = getRandomArbitrary(-3, 3) + previousOffsetX ?? 0 / 2;
+    const offsetY = getRandomArbitrary(4, 8) + previousOffsetY ?? 0;
 
     previousOffsetX = offsetX;
     previousOffsetY = offsetY;
 
+    let title = 'Kathmandu, Nepal';
+    let date = 'March 2020 - October 2021';
+
+    if (index === 1) {
+      title = 'Amsterdam, Netherlands';
+      date = 'January 2019 - March 2019';
+    } else if (index === 2) {
+      title = 'Sofia, Bulgaria';
+      date = 'February 2020 - March 2020';
+    }
+
     return {
       positions: [offsetX, -offsetY, 0] as PointArray,
       image: null,
-      title:
-        index === 1
-          ? 'Amsterdam, Netherlands'
-          : index === 2
-          ? 'Sofia, Bulgaria'
-          : 'Kathmandu, Nepal',
-      date: 'March 2020 - June 2021',
+      title,
+      date,
     };
   });
 
@@ -42,12 +48,17 @@ export const CanvasGalleryContext = ({ children }: CanvasGalleryContextProps) =>
   const [focusPoint, setFocusPoint] = useState<FocusPoints>({
     from: [0, 0, 4],
     to: [0, 0, 0],
+    isCurve: false,
   });
+
+  const gallery = useMemo(() => {
+    return createGallery();
+  }, []);
 
   return (
     <GalleryContext.Provider
       value={{
-        gallery: createGallery(),
+        gallery,
         galleryActiveIndex,
         setGalleryActiveIndex,
         focusPoint,
@@ -69,6 +80,7 @@ type Gallery = {
 type FocusPoints = {
   from: PointArray;
   to: PointArray;
+  isCurve: boolean;
 };
 
 type GalleryContextType = {

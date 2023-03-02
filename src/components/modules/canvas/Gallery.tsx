@@ -1,5 +1,6 @@
 'use client';
-import { Fragment, useContext, useRef, useState } from 'react';
+import { Fragment, useContext, useMemo, useRef, useState } from 'react';
+import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import clamp from 'lodash/clamp';
@@ -8,8 +9,6 @@ import fragmentShader from 'shaders/fragment-line.glsl';
 import vertexShader from 'shaders/vertex-line.glsl';
 
 import { GalleryContext } from 'modules/canvas/GalleryContext';
-import { useFrame } from '@react-three/fiber';
-import { MathUtils } from 'three';
 
 type CurveRef = THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
 
@@ -26,6 +25,16 @@ export const Gallery = ({ containerRef }: GalleryProps) => {
     }
   };
 
+  const curveUniforms = useMemo(
+    () => ({
+      uColorActive: { value: new THREE.Color(0xffffff) },
+      uProgress: {
+        value: 0,
+      },
+    }),
+    [],
+  );
+
   useFrame((state, delta) => {
     if (
       !containerRef?.current ||
@@ -37,54 +46,39 @@ export const Gallery = ({ containerRef }: GalleryProps) => {
       return;
 
     if (galleryContext.galleryActiveIndex > 0 && galleryContext.galleryActiveIndex !== false) {
-      const [x, y, z] = galleryContext.gallery[galleryContext.galleryActiveIndex].positions;
-
       setProgress((prevProgress) =>
-        THREE.MathUtils.damp(clamp((prevProgress += 0.1 * delta), 0, 1), 1, 0.1, delta),
+        THREE.MathUtils.damp(clamp((prevProgress += 0.32 * delta), 0, 1), 1, 0.1, delta),
       );
 
-      const { uProgress } = curveRefs.current[0].material.uniforms;
-      uProgress.value = THREE.MathUtils.damp(uProgress.value, progress, 6, delta);
-
-      const position = nextCurve.getPointAt(progress);
-
-      // state.camera.position.x = MathUtils.damp(state.camera.position.x, position.x, 6, delta);
-      // state.camera.position.y = MathUtils.damp(state.camera.position.y, position.y, 6, delta);
-      // state.camera.position.z = 4;
-      // state.camera.updateProjectionMatrix();
-
-      // containerRef.current.setPosition(
-      //   state.camera.position.x,
-      //   state.camera.position.y,
-      //   state.camera.position.z,
-      // );
-
-      // containerRef.current.setPosition(
-      //   MathUtils.damp(state.camera.position.x, position.x, 6, delta),
-      //   MathUtils.damp(state.camera.position.y, position.y, 6, delta),
-      //   2,
-      // );
-
-      // containerRef.current.setLookAt(
-      //   state.camera.position.x,
-      //   state.camera.position.y,
-      //   state.camera.position.z,
-      //   x,
-      //   y,
-      //   z,
-      //   true,
-      // );
+      // Always animate the previous curve of the (new) active image
+      const activeCurve = curveRefs.current[galleryContext.galleryActiveIndex - 1];
+      const { uProgress } = activeCurve.material.uniforms;
+      uProgress.value = progress;
     }
   });
 
   const onNextImage = (curve: THREE.CubicBezierCurve3) => {
     if (!galleryContext || galleryContext.galleryActiveIndex === false) return;
 
+    // Reset progress state when going to new image so useFrame can re-use it
     setProgress(0);
-    const nextPointIndex = galleryContext.galleryActiveIndex + 1;
 
+    // Set the next image in the gallery so useFrame above can animate the curve
+    const nextPointIndex = galleryContext.galleryActiveIndex + 1;
     galleryContext.setGalleryActiveIndex(nextPointIndex);
+
+    const nextPoint = galleryContext.gallery[nextPointIndex];
     setNextCurve(curve);
+
+    // Animate useSpring to the next point
+    const [x, y, z] = nextPoint.positions;
+    const newTarget = new THREE.Vector3(-x, -y, z);
+
+    galleryContext.setFocusPoint({
+      from: [...galleryContext.focusPoint.to],
+      to: [newTarget.x, newTarget.y, newTarget.z],
+      isCurve: true, // removes initial delay (from Earth to Gallery) on animation
+    });
   };
 
   return (
@@ -154,16 +148,11 @@ export const Gallery = ({ containerRef }: GalleryProps) => {
                 renderOrder={1}
                 ref={addToRefs}
               >
-                <tubeGeometry args={[curve, 100, 0.01, 8, false]} />
-                <meshBasicMaterial color="#FFFFFF" />
+                <tubeGeometry args={[curve, 50, 0.01, 8, false]} />
                 <shaderMaterial
                   fragmentShader={fragmentShader}
                   vertexShader={vertexShader}
-                  uniforms={{
-                    uColorActive: { value: new THREE.Vector3(0.912, 0.191, 0.652) },
-                    uProgress: { value: 0 },
-                  }}
-                  uniformsNeedUpdate
+                  uniforms={curveUniforms}
                 />
               </mesh>
             )}

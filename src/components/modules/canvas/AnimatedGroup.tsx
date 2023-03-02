@@ -1,5 +1,6 @@
 import { forwardRef, useContext } from 'react';
 import { animated, useSpring } from '@react-spring/three';
+
 import { GalleryContext } from './GalleryContext';
 
 export const AnimatedGroup = forwardRef(
@@ -8,8 +9,10 @@ export const AnimatedGroup = forwardRef(
 
     const { position } = useSpring({
       position: galleryContext!.focusPoint.to,
-      from: { position: galleryContext!.focusPoint.from },
-      delay: 1000,
+      from: {
+        position: galleryContext!.focusPoint.from,
+      },
+      delay: galleryContext!.focusPoint ? 0 : 1000,
       config: {
         mass: 1,
         tension: 100,
@@ -18,11 +21,9 @@ export const AnimatedGroup = forwardRef(
       },
     });
 
-    const newPosition = position as unknown as THREE.Vector3;
-
     return (
       <animated.group
-        position={newPosition}
+        position={position}
         ref={ref}
       >
         {children}
