@@ -8,7 +8,7 @@ const getRandomArbitrary = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 };
 
-export const createGallery = (): Gallery => {
+export const createGallery = (): GalleryItem[] => {
   let previousOffsetX = 0;
   let previousOffsetY = 0;
 
@@ -70,12 +70,12 @@ export const CanvasGalleryContext = ({ children }: CanvasGalleryContextProps) =>
   );
 };
 
-type Gallery = {
+export type GalleryItem = {
   date: string;
   image: string | null;
   positions: PointArray;
   title: string;
-}[];
+};
 
 type FocusPoints = {
   from: PointArray;
@@ -84,7 +84,7 @@ type FocusPoints = {
 };
 
 type GalleryContextType = {
-  gallery: Gallery;
+  gallery: GalleryItem[];
   galleryActiveIndex: number | false;
   setGalleryActiveIndex: i.SetState<number | false>;
   focusPoint: FocusPoints;
