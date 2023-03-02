@@ -31,14 +31,14 @@ export const Gallery = ({ containerRef }: GalleryProps) => {
   const onNextImage = () => {
     if (!galleryContext || galleryContext.galleryActiveIndex === false) return;
 
-    // Reset progress state when going to new image so useFrame can re-use it
-    setProgress(0);
-
     // Set the next image in the gallery so useFrame above can animate the curve
     const nextPointIndex = galleryContext.galleryActiveIndex + 1;
-    galleryContext.setGalleryActiveIndex(nextPointIndex);
-
     const nextPoint = galleryContext.gallery[nextPointIndex];
+    if (!nextPointIndex || !nextPoint) return;
+
+    // Reset progress state when going to new image so useFrame can re-use it
+    setProgress(0);
+    galleryContext.setGalleryActiveIndex(nextPointIndex);
 
     // Animate useSpring to the next point
     const [x, y, z] = nextPoint.positions;

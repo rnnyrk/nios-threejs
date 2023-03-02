@@ -13,10 +13,10 @@ export const createGallery = (): GalleryItem[] => {
   let previousOffsetY = 0;
 
   const images = Array.from({ length: 3 }).map((_, index) => {
-    const offsetX = getRandomArbitrary(-3, 3) + previousOffsetX ?? 0 / 2;
-    const offsetY = getRandomArbitrary(4, 8) + previousOffsetY ?? 0;
+    const offsetX = getRandomArbitrary(0, 8) + previousOffsetX ?? 0;
+    const offsetY = getRandomArbitrary(3, 7) + previousOffsetY ?? 0;
 
-    previousOffsetX = offsetX;
+    previousOffsetX = offsetX - 4;
     previousOffsetY = offsetY;
 
     let title = 'Kathmandu, Nepal';
