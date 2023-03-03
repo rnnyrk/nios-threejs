@@ -9,7 +9,6 @@ import { GalleryImage } from './GalleryImage';
 
 export const Gallery = ({ containerRef }: GalleryProps) => {
   const galleryContext = useContext(GalleryContext);
-
   const [progress, setProgress] = useState(0);
 
   useFrame((state, delta) => {
@@ -38,11 +37,12 @@ export const Gallery = ({ containerRef }: GalleryProps) => {
 
     // Reset progress state when going to new image so useFrame can re-use it
     setProgress(0);
+    galleryContext.setAnimComplete(false);
     galleryContext.setGalleryActiveIndex(nextPointIndex);
 
     // Animate useSpring to the next point
     const [x, y, z] = nextPoint.positions;
-    const newTarget = new THREE.Vector3(-x, -y, z);
+    const newTarget = new THREE.Vector3(-(x + 2), -y, z);
 
     galleryContext.setFocusPoint({
       from: [...galleryContext.focusPoint.to],
@@ -57,7 +57,12 @@ export const Gallery = ({ containerRef }: GalleryProps) => {
         return (
           <GalleryImage
             key={`gallery-${index}`}
-            {...{ galleryItem, index, onNextImage, progress }}
+            {...{
+              galleryItem,
+              index,
+              onNextImage,
+              progress,
+            }}
           />
         );
       })}

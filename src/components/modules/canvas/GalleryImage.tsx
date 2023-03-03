@@ -1,15 +1,16 @@
 'use client';
 import { useContext, useMemo, useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
+import { useLoader, useFrame } from '@react-three/fiber';
+import { TextureLoader } from 'three/src/loaders/TextureLoader';
 import * as THREE from 'three';
 
 import fragmentShader from 'shaders/fragment-line.glsl';
 import vertexShader from 'shaders/vertex-line.glsl';
 import { GalleryContext, type GalleryItem } from 'modules/canvas/GalleryContext';
+import { GalleryImageText } from './GalleryImageText';
 
 export const GalleryImage = ({
-  galleryItem: { positions, title, date },
+  galleryItem: { date, positions, image, title },
   index,
   onNextImage,
   progress,
@@ -17,6 +18,7 @@ export const GalleryImage = ({
   const curveRef = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>>(null);
   const galleryContext = useContext(GalleryContext);
 
+  // Save uniforms in useMemo so they are not reinitialized on every frame
   const curveUniforms = useMemo(
     () => ({
       uColorActive: { value: new THREE.Color(0xffffff) },
@@ -27,8 +29,17 @@ export const GalleryImage = ({
     [],
   );
 
+  const imageMap = useLoader(TextureLoader, image);
+  imageMap.encoding = THREE.sRGBEncoding;
+
   useFrame((state, delta) => {
-    if (!galleryContext || !curveRef?.current || progress >= 1) return;
+    if (!galleryContext) return;
+
+    if (progress >= 1) {
+      galleryContext.setAnimComplete(true);
+    }
+
+    if (!curveRef?.current || progress >= 1) return;
 
     // Always animate the previous curve of the (new) active image
     if (
@@ -65,42 +76,21 @@ export const GalleryImage = ({
   return (
     <>
       <mesh
-        key={`plane-${index}`}
         position={positions}
         renderOrder={2}
+        onDoubleClick={onNextImage}
       >
-        <planeGeometry args={[1, 1]} />
+        <planeGeometry args={[2, 2.8]} />
         <meshBasicMaterial
-          color="#FFFFFF"
+          map={imageMap}
           depthTest={false}
         />
       </mesh>
 
-      <group
-        key={`text-${index}`}
-        position={[positions[0] + 1.2, positions[1], 0]}
-        onClick={onNextImage}
-      >
-        <Text
-          color="white"
-          fontSize={0.15}
-          textAlign="left"
-        >
-          {title}
-        </Text>
-        <Text
-          color="white"
-          fontSize={0.1}
-          position-y={-0.2}
-          textAlign="left"
-        >
-          {date}
-        </Text>
-      </group>
+      <GalleryImageText {...{ date, positions, title }} />
 
       {curve && (
         <mesh
-          key={`curve-${index}`}
           renderOrder={1}
           ref={curveRef}
         >

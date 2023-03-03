@@ -19,6 +19,10 @@ export const AnimatedGroup = forwardRef(
         friction: 20,
         duration: 2000,
       },
+      onRest: () => {
+        if (!galleryContext) return;
+        galleryContext.setAnimComplete(true);
+      },
     });
 
     return (

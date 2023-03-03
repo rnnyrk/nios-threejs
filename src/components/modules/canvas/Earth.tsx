@@ -22,7 +22,7 @@ export const Earth = ({ containerRef }: EarthProps) => {
       earthRef.current.rotation.y += 0.1 * delta;
     }
 
-    if (!galleryContext || !containerRef?.current) return;
+    if (!galleryContext) return;
 
     if (galleryContext.galleryActiveIndex === 0) {
       // Reset the camera position when the gallery becomes active
@@ -37,6 +37,7 @@ export const Earth = ({ containerRef }: EarthProps) => {
     setHoverActive(true);
 
     // Disable hover states on earth by setting the index from false to 0 (first image)
+    galleryContext.setAnimComplete(false);
     galleryContext.setGalleryActiveIndex(0);
 
     // Animate to the first image in the gallery
